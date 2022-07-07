@@ -1,0 +1,23 @@
+{% extends "Home/base.html" %} {% block body %}
+
+<section class="login" id="login">
+	<div class="head">
+		<h1 class="company">University of Nottingham</h1>
+	</div>
+	<p class="msg">Sign in to your account</p>
+	<div class="form">
+		<form method="POST">
+			{% csrf_token %}
+			<input
+				type="text"
+				placeholder="Username"
+				class="text"
+				id="username"
+				required
+			/><br />
+			<input type="password" placeholder="Password" class="password" /><br />
+			<a href="#" class="btn-login" id="do-login">Login</a>
+		</form>
+	</div>
+</section>
+{% endblock %}

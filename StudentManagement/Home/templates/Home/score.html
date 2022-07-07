@@ -1,0 +1,117 @@
+{% extends "Home/base.html" %} 
+
+
+
+{% block content %} 
+
+<h3 class="m-4">All Students</h3>
+<div class="row text-dark">
+  <div class="col-12">
+    {% if students %}
+    <div class="card bg-light ms-4 me-4 my-4">
+      <div class="card-header">
+        <i class="fa-solid fa-list"></i>Student Records</div>
+      <div class="card-body">
+        <p class="card-text">
+            <div class="table-responsive">    
+                <table class="table table-hover">
+                    <thead>
+                      <tr class="table-danger text-center">
+                        <th scope="col">Student number</th>
+                        <th scope="col">Full name</th>
+                        <th scope="col">Classroom</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Score</th>
+                        <th scope="col">ACTIONS</th>
+                      </tr>
+                    </thead>                            
+                    <tbody>
+                      {% for score in students %}
+                        <tr class="text-center">
+                            <td>{{ student.student_id }}</td>
+                            <td>{{ student.full_name }}</td>
+                            <td>{{ student.birthday }}</td>
+                            <td>{{ student.phone }}</td>
+                            <td>{{ student.email }}</td>
+                            <td>{{ student.address }}</td>
+                            <td>
+                              <button type="button" class="btn btn-success me-1" href="{% url 'view_student' student.student_id %}"data-bs-toggle="modal" data-bs-target="#myModal{{student.student_id}}">
+                                <i class="fa-solid fa-circle-info fa-lg"></i>
+                              </button>
+
+                              <!-- Modal View student -->
+                              <div class="modal" id="myModal{{student.student_id}}" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title text-dark">
+                                        Student: {{student.full_name}}
+                                      </h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <ul class="list-unstyled text-start text-dark">
+                                        <li>Student Number: <strong>{{student.student_id}}</strong></li>
+                                        <li>Full name: <strong>{{student.full_name}}</strong></li>
+                                        <li>Birthday: <strong>{{student.birthday}}</strong></li>
+                                        <li>Telephone: <strong>{{student.phone}}</strong></li>
+                                        <li>Email: <strong>{{student.email}}</strong></li>
+                                        <li>Address: <strong>{{student.address}}</strong></li>
+                                      </ul>                                              
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                                <a type="button" class="btn btn-success me-1" href="{% url 'edit' student.student_id %}"> 
+                                    <i class="fa-solid fa-pen text-warning"></i>
+                                </a>
+                                <button type="button" class="btn btn-success me-1" href="{% url 'delete' student.student_id %}" data-bs-toggle="modal" data-bs-target="#delete{{ student.student_id }}"> 
+                                    <i class="fa-solid fa-trash-can text-danger"></i>
+                                </button>      
+                                
+                                <!-- Model delete student -->
+                                <div class="modal" id="delete{{ student.student_id }}" tabindex="-1" aria-labelledby="myModalLabel2" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title">
+                                          Student: {{ student.full_name }} 
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true"></span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <p>Are you sure you want to delete this student?</p>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <form action="{% url 'delete' student.student_id %}" method="POST">
+                                          {% csrf_token %}
+                                          <input type="submit" class="btn btn-primary" value="Delete">
+                                        </form>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </p>
+      </div>
+    </div>
+
+    {% else %}
+    <h5 class="alert alert-warning ms-4 me-4 mt-4" role="alert">No Student Records</h5>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
